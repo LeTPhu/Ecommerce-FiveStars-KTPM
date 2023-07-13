@@ -1,0 +1,229 @@
+﻿.tongquan-khachhang {
+    background-color: #bac1b6;
+    text-align: center;
+    padding: 20px 0;
+}
+
+.dinhdang-thongtinkhachhang {
+    border: 1px solid;
+    margin: 0 5%;
+    background-color: #333;
+}
+
+.khachhang-thongtin h4 {
+    color: red;
+    margin-top: 20px;
+}
+
+.khachhang-trangthai h4{
+    color: red;
+    margin-top: 20px;
+}
+
+.cl-white {
+    color: white;
+}
+
+.edit-form-singinup {
+    color: black;
+    padding: 10px 25px;
+}
+
+.edit-form-singinup {
+    text-decoration: none;
+}
+
+/*.dinhdang-display-flex {
+    display: flex;
+}
+
+.dinhdang-display-flex-text {
+    width: 157px;
+    height: 36px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}*/
+
+.product-img img{
+    max-height: 140px;
+}
+
+.setweight {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* cookie website */
+#cookie-notice {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #f2f2f2;
+    padding: 10px;
+    text-align: center;
+    box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.1);
+}
+
+#cookie-notice p {
+    margin: 0 0 10px;
+}
+
+#btn-accept {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+#btn-reject {
+    background-color: #f44336;
+    color: white;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+}
+
+.thanhsearch {
+    display: none;
+}
+
+/*css quên mật khẩu*/
+.qmk1 {
+    margin-left: 28%;
+    text-align: center;
+    border: 1px solid;
+    padding: 10px;
+    width: 45%;
+    background-color: #ffeded;
+}
+
+.qmk2 {
+    width: 35%;
+    margin-left: 32%;
+}
+
+.qmk3 {
+    font-weight: 550;
+    color: #0043ff;
+    font-size: 12px;
+}
+
+.quenmk {
+    margin-left: 10%;
+    text-align: center;
+    border: 1px solid;
+    padding: 10px;
+    width: 80%;
+    background-color: #ffeded;
+}
+
+.qmk4 {
+    width: 50%;
+    margin-left: 25%;
+}
+
+.model-content1 {
+    top: 30%;
+    position: relative;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    pointer-events: auto;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid black;
+    outline: 0;
+    left: 29%;
+}
+
+.hoverItem:hover {
+    background: #c2be89;
+    cursor: pointer;
+}
+
+/*css khi kích hoạt lệnh cuộn chuột*/
+.set-followflexcss {
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
+}
+
+/* viền 7 sắc cầu vồng sản phẩm*/
+.rainbow-border {
+    border: 1px solid transparent;
+    animation: rainbow 3s linear infinite;
+}
+
+/* Keyframes */
+@keyframes rainbow {
+    0% {
+        border-color: red;
+    }
+
+    14% {
+        border-color: orange;
+    }
+
+    28% {
+        border-color: yellow;
+    }
+
+    42% {
+        border-color: green;
+    }
+
+    57% {
+        border-color: blue;
+    }
+
+    71% {
+        border-color: indigo;
+    }
+
+    85% {
+        border-color: violet;
+    }
+
+    100% {
+        border-color: red;
+    }
+}
+
+/*responsive pc*/
+@media screen and (min-width: 800px) {
+    .dinhdang-formdki-1 {
+        margin-left: 14%;
+    }
+
+    .dinhdang-formdki-2 {
+        max-width: 50%;
+    }
+
+    .dinhdang-formdki-3 {
+        max-width: 31%;
+    }
+
+
+}
+
+/*responsive mobile*/
+@media screen and (max-width: 800px) {
+    .thanhsearch {
+        display: block;
+        margin-bottom: 20px;
+    }
+}
+
+.setbt-dsdonhang {
+    padding: 0;
+    border: 0;
+    margin-left: 10px;
+    color: white;
+    background: #333;
+}

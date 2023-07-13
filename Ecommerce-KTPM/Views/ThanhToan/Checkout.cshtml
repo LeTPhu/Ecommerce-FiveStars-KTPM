@@ -1,0 +1,121 @@
+﻿@model Ecommerce_KTPM.Models.GiaoHang
+@using Ecommerce_KTPM.Models
+@{
+    ViewBag.Title = "Đặt hàng";
+    Shopcart x = Session["GioHang"] as Shopcart;
+
+}
+
+<!-- Breadcrumb Start -->
+<div class="container-fluid">
+    <div class="row px-xl-5">
+        <div class="col-12">
+            <nav class="breadcrumb bg-light mb-30">
+                <a class="breadcrumb-item text-dark" href="@Url.Action("Home", "Home",new {Area=""})">Trang chủ</a>
+                <a class="breadcrumb-item text-dark" href="@Url.Action("Cart", "GioHang",new {Area=""})">Giỏ hàng</a>
+                <a class="breadcrumb-item text-dark" href="@Url.Action("Checkout", "GioHang",new {Area=""})">Thanh toán</a>
+            </nav>
+        </div>
+    </div>
+</div>
+<!-- Breadcrumb End -->
+<!-- Checkout Start -->
+<div class="container-fluid">
+        @using (Html.BeginForm("SaveToData", "ThanhToan", FormMethod.Post))
+        {
+    <div class="row px-xl-5">
+            <div class="col-lg-8">
+                <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Thông tin đặt hàng</span></h5>
+                <div class="bg-light p-30 mb-5">
+                    <div class="row">
+                        <div class="col-md-12 form-group">
+                            <label>Họ và tên</label>
+                            @Html.TextBoxFor(m => m.tenKH, new { @class = "form-control" })
+                        </div>
+                        <div class="col-md-12 form-group">
+                            <label>E-mail</label>
+                            @Html.TextBoxFor(m => m.email, new { @class = "form-control", placeholder = "example@email.com" })
+                        </div>
+                        <div class="col-md-12 form-group">
+                            <label>Số điện thoại</label>
+                            @Html.TextBoxFor(m => m.soDT, new { @class = "form-control", placeholder = "+123 456 789" })
+                        </div>
+                        <div class="col-md-12 form-group">
+                            <label>Địa chỉ</label>
+                            @Html.TextBoxFor(m => m.diaChi, new { @class = "form-control", placeholder = "123 Street" })
+                        </div>
+                        <div class="col-md-12 form-group">
+                            <label>Ghi chú</label>
+                            @Html.TextBoxFor(m => m.ghiChu, new { @class = "form-control", placeholder = "Ghi chú về đơn đặt hàng của bạn" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Tổng đơn hàng</span></h5>
+                <div class="bg-light p-30 mb-5">
+                    <div class="border-bottom">
+                        <h6 class="mb-3">Sản phẩm</h6>
+                        @foreach (CtDonHang i in x.spChon.Values)
+                        {
+                            <div class="d-flex justify-content-between">
+                                <p>@DataIn.GetProductbyID(i.maSP).tenSP</p>
+                                <p><b>(@i.soLuong)</b></p>
+                                <p>@string.Format("{0:#,##0}", x.tien1Sp(i))</p>
+                            </div>
+
+                        }                        
+                    </div>
+                    <div class="border-bottom pt-3 pb-2">
+                        <div class="d-flex justify-content-between mb-3">
+                            <h6>Tổng tiền</h6>
+                            <h6>@string.Format("{0:#,##0 VNĐ}", @x.tongGia())</h6>
+                        </div>
+                        <div class="d-flex justify-content-between mb-3">
+                            <h6>Số tiền đã giảm</h6>
+                            <h6>@string.Format("{0:#,##0 VNĐ}", @x.tienDaGiamGia())</h6>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <h6 class="font-weight-medium">Phí giao hàng</h6>
+                            <h6 class="font-weight-medium">0 VNĐ</h6>
+                        </div>
+                    </div>
+                    <div class="pt-2">
+                        <div class="d-flex justify-content-between mt-2">
+                            <h5>Tổng cộng</h5>
+                            <h5>@string.Format("{0:#,##0 VNĐ}", @x.tongTien())</h5>
+                        </div>
+                        <button class="btn btn-block btn-primary font-weight-bold py-3" type="submit">Đặt hàng</button>
+                    </div>
+                    @*<div class="mb-5">
+                        <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Payment</span></h5>
+                        <div class="bg-light p-30">
+                            <div class="form-group">
+                                <div class="custom-control custom-radio">
+                                    <input type="radio" class="custom-control-input" name="payment" id="paypal">
+                                    <label class="custom-control-label" for="paypal">Paypal</label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="custom-control custom-radio">
+                                    <input type="radio" class="custom-control-input" name="payment" id="directcheck">
+                                    <label class="custom-control-label" for="directcheck">Direct Check</label>
+                                </div>
+                            </div>
+                            <div class="form-group mb-4">
+                                <div class="custom-control custom-radio">
+                                    <input type="radio" class="custom-control-input" name="payment" id="banktransfer">
+                                    <label class="custom-control-label" for="banktransfer">Bank Transfer</label>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>*@
+                </div>
+            </div>
+
+
+    </div>
+        }
+</div>
+<!-- Checkout End -->

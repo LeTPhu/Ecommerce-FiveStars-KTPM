@@ -1,0 +1,102 @@
+﻿@using Ecommerce_KTPM.Models
+@{
+    ViewBag.Title = "Danh sách các sản phẩm";
+    LoaiSP i = ViewData["ViewLSP"] as LoaiSP;
+    TaiKhoanTV t = Session["DangNhap"] as TaiKhoanTV;
+
+}
+<style>    
+    a {
+        color:black;
+    }
+</style>
+<link href="~/Content/giamgia.css" rel="stylesheet" />
+<link href="~/Content/giamgia.css" rel="stylesheet" />
+<!-- Breadcrumb Start -->
+<div class="container-fluid">
+    <div class="row px-xl-5">
+        <div class="col-12">
+            <nav style="color:black;" class="breadcrumb bg-light mb-30">
+                <a class="nav-item nav-link act" href="@Url.Action( "Home", "Home",new {Area=""})">Trang chủ</a>
+                <a class="nav-item nav-link act" href="@Url.Action("Cart", "GioHang",new {Area=""})">Giỏ hàng</a>
+                <a class="nav-item nav-link act" href="@Url.Action("Contact", "Home",new {Area=""})">Liên hệ</a>
+            </nav>
+        </div>
+    </div>
+</div>
+<!-- Breadcrumb End -->
+<!-- Products Start -->
+<!--Lọc sp theo gia-->
+<h3 style="text-align:center">Lọc theo giá</h3>
+<p style="text-align:center;">
+    <input style="width:20%;" placeholder="Giá thấp nhất" type="number" id="price-min" min="0">
+    <input style="width:20%;"  placeholder="Giá cao nhất" type="number" id="price-max" min="0">
+    <button style="padding:0.2% 2%; border-radius:5px;" class="btn btn-outline-success" padding-bottom:0.4%" id="filter-button">Lọc</button>
+</p>
+<!---->
+<!--Tìm theo thương hiệu-->
+<h3 style="text-align:center;">Nhập tên thương hiệu</h3>
+<p style="text-align:center"><input style="padding:0.2% 4%; text-align:center;" type="text" id="brandFilter" placeholder="Tìm theo thương hiệu"></p>
+
+<!---->
+<div id="productList">
+    <div id="productList" class="container-fluid pt-5 pb-3">
+        <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4"><span class="bg-secondary pr-3">@i.tenLoai</span></h2>
+        <div class="row px-xl-5">
+            @{
+                foreach (SanPham l in DataIn.GetSPTheoLoai(i.maLoai).Where(m => m.daDuyet == true))
+                {
+                    <div class="col-lg-3 col-md-4 col-sm-6 pb-1 productItem product-item" data-price="@l.giaBan">
+                        <div class="product-item bg-light mb-4 productItem product-item" data-price="@l.giaBan">
+                            <div class="product-img position-relative overflow-hidden">
+                                @{
+                                    if (l.giamGia != 0)
+                                    { <div class="igiamgia">@l.giamGia%<P>GIẢM</P></div>
+                                }
+                                }
+                                <img class="img-fluid w-100" src="@l.hinhDD" alt="">
+                                <div class="product-action">
+                                    @if (t.TKTV != l.taiKhoan)
+                                    {
+                                        using (Html.BeginForm("AddToCart", "GioHang", FormMethod.Post))
+                                        {
+                                            <input type="hidden" name="maSP" value="@l.maSP" />
+                                            <button class="btn btn-outline-dark btn-square" onclick="thongbao()"><i class="fa fa-shopping-cart"></i></button>
+                                        }
+                                    }
+                                </div>
+                            </div>
+                            <div class="text-center py-4">
+                                <ul class="list" style="list-style: none; padding: 0;">
+                                    <a class="h6 text-decoration-none text-truncate" href="@Url.Action("ShopDetail", "Shop", new {maSanPham = l.maSP})">
+                                    <li class="setweight">@l.tenSP</li></a>
+                                </ul>
+                                <div class="d-flex align-items-center justify-content-center mt-2">
+                                    <h5>@string.Format("{0:#,##0 VNĐ}", l.giaBan - (l.giaBan * l.giamGia / 100))</h5>
+                                    @{
+                                        if (l.giamGia != 0)
+                                        { <h6 class="text-muted ml-2"><del>@string.Format("{0:#,##0 VNĐ}", l.giaBan)</del></h6>}
+                                    }
+                                </div>
+                                <div class="d-flex align-items-center justify-content-center mb-1">
+                                    <small class="fa fa-star text-primary mr-1"></small>
+                                    <small class="fa fa-star text-primary mr-1"></small>
+                                    <small class="fa fa-star text-primary mr-1"></small>
+                                    <small class="fa fa-star text-primary mr-1"></small>
+                                    <small class="fa fa-star text-primary mr-1"></small>
+                                    <a style="color:brown" href="@Url.Action("ShopTK", "Shop", new {tenTKShop = l.taiKhoan})">(@l.taiKhoan)</a>
+                                </div>
+                                <p class="productBrand">@l.nhaSanXuat</p>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+</div>
+<script src="~/Scripts/loc.js"></script>
+<!-- Products End -->
+<script src="~/Scripts/loc.js"></script>
+<script src="~/Scripts/locth.js"></script>
+<!-- Shop End -->

@@ -1,0 +1,47 @@
+﻿
+@{
+    ViewBag.Title = "Quên mật khẩu ";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .quenmk {
+        background-color: #3d464d;
+        color:white;
+        font-weight:bold;
+        font-size:25px;
+    }
+    .btn-success {
+        background-color: #ffd333;
+        color:black;
+        font-weight:bold;
+        font-size:16px;
+    }
+    .input-group-text {
+        background-color: #ffd333;
+        font-weight:bold;
+    }
+</style>
+<div class="quenmk">
+    <label for="basic-url" class="form-label">Quên mật khẩu</label>
+    @{
+        if (@ViewBag.sc != null)
+        {
+        <p class="alert alert-success">@ViewBag.sc</p>}
+    
+    
+        if (ViewBag.mess != null)
+        {
+        <p class="alert alert-warning">@ViewBag.mess</p>
+    }
+    }
+    @using (Html.BeginForm("KTraEmail", "QuenMK", FormMethod.Post))
+    {
+        <div class="input-group mb-3" style="width: 50%; margin-left: 25%;">
+            <span class="input-group-text" id="basic-addon3">Nhập Email của bạn</span>
+            <input name="email" type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3" placeholder="accountname&#64;gmail.com">
+        </div>
+        <button type="submit" class="btn btn-success" style="border: 0; border-radius: 0;">Lấy lại</button>
+    }
+
+</div>
+

@@ -1,0 +1,88 @@
+﻿@using Ecommerce_KTPM.Models;
+
+@{
+    ViewBag.Title = "Tìm kiếm sản phẩm";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    TaiKhoanTV t = Session["DangNhap"] as TaiKhoanTV;
+
+}
+
+<style>
+.igiamgia {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 49px;
+    height: 50px;
+    background-color: yellow;
+    text-align: center;
+    font-weight: bold;
+    color: red;
+}
+
+.igiamgia::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -7px;
+    border-width: 0px 25px 7px;
+    border-style: solid;
+    border-color: yellow yellow transparent yellow;
+}
+
+.igiamgia p {
+    color: black;
+}
+</style>
+
+<h3 style="font-weight:550; margin-left: 15px;">Kết quả tìm kiếm cho: <span style="color:red;">@ViewBag.search</span></h3>
+
+<div class="row" style="display: flex; ">    
+        @{
+            int soSP = 0;
+            foreach (SanPham sanPham in SearchSP.SearchSanPham(ViewBag.search))
+            {
+                <div class="col-lg-4 col-md-6 col-sm-6 pb-1 tongthe-search">
+                    <div class="product-item bg-light mb-4">
+                        <div class="product-img position-relative overflow-hidden">
+                            <div class="igiamgia">@sanPham.giamGia%<P>GIẢM</P></div>
+                            <img class="img-fluid w-100" src="@sanPham.hinhDD" alt="">
+                            <div class="product-action">
+                                @if (t.TKTV != sanPham.taiKhoan)
+                                {
+                                    using (Html.BeginForm("AddToCart", "GioHang", FormMethod.Post))
+                                    {
+                                        <input type="hidden" name="maSP" value="@sanPham.maSP" />
+                                        <button class="btn btn-outline-dark btn-square" onclick="thongbao()"><i class="fa fa-shopping-cart"></i></button>
+                                    }
+                                }
+                            </div>
+                        </div>
+                        <div class="text-center py-4">
+                            <ul class="list" style="list-style: none; padding: 0;">
+                                <a class="h6 text-decoration-none text-truncate" href="@Url.Action("ShopDetail", "Shop", new {maSanPham = sanPham.maSP})">
+                                <li class="setweight">@sanPham.tenSP</li></a>
+                            </ul>
+                            <div class="d-flex align-items-center justify-content-center mt-2">
+                                <h5>@string.Format("{0:#,##0 VNĐ}", sanPham.giaBan - (sanPham.giaBan * sanPham.giamGia / 100))</h5><h6 class="text-muted ml-2"><del>@string.Format("{0:#,##0 VNĐ}", sanPham.giaBan)</del></h6>
+                            </div>
+                            <div class="d-flex align-items-center justify-content-center mb-1">
+                                <small class="fa fa-star text-primary mr-1"></small>
+                                <small class="fa fa-star text-primary mr-1"></small>
+                                <small class="fa fa-star text-primary mr-1"></small>
+                                <small class="fa fa-star text-primary mr-1"></small>
+                                <small class="fa fa-star text-primary mr-1"></small>
+                                <a style="color:brown" href="@Url.Action("ShopTK", "Shop", new {tenTKShop = sanPham.taiKhoan})">(@sanPham.taiKhoan)</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                soSP++;
+            }
+            if (soSP == 0)
+            {
+                <p style="color: red; margin-left: 15px;">Không tìm thấy sản phẩm @ViewBag.search</p>
+            }
+        }
+
+</div>

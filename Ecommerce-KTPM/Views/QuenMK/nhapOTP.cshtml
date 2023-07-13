@@ -1,0 +1,56 @@
+﻿@using Ecommerce_KTPM.Models
+@{
+    ViewBag.Title = "Nhập OTP";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .quenmk {
+        background-color: #3d464d;
+        color: white;
+        font-weight: bold;
+        font-size: 25px;
+    }
+
+    .btn-success {
+        background-color: #ffd333;
+        color: black;
+        font-weight: bold;
+        font-size: 16px;
+    }
+
+    .input-group-text {
+        background-color: #ffd333;
+        font-weight:bold;
+    }
+    h6{color:white;}
+    h5{color:red;}
+</style>
+<div class="quenmk">
+    <label for="basic-url" class="form-label">Vui lòng nhập mã OTP gửi về email của bạn để xác thực</label>
+    <h5>LƯU Ý</h5><h6> Mã OTP chỉ tồn tại trong vòng 2 phút !</h6>
+    @{
+        if (@ViewBag.sc != null)
+        {
+            <p class="alert alert-success">@ViewBag.sc</p>}
+
+
+        if (ViewBag.mess != null)
+        {
+            <p class="alert alert-warning">@ViewBag.mess</p>
+        }
+    }
+    @using (Html.BeginForm("KtraNhapOTP", "QuenMK", FormMethod.Post))
+    {
+
+        <div class="input-group mb-3 qmk2">
+            <span class="input-group-text" id="basic-addon3">OTP</span>
+            <input type="number" name="OTP" class="form-control" id="basic-url" aria-describedby="basic-addon3" placeholder="Nhập mã OTP đã gửi vào email của bạn">
+        </div>
+        <button type="submit" class="btn btn-success" style="border: 0; border-radius: 0;">Xác thực</button>
+
+    }
+
+</div>
+<div style="text-align: center; margin-top: 15px;">
+    <label for="basic-url" class="form-label qmk3">*Lưu ý: Nếu không thấy Mail vui lòng thử kiểm tra mục thư rác.</label>
+</div>

@@ -1,0 +1,119 @@
+﻿@using Ecommerce_KTPM.Models
+@{
+    ViewBag.Title = "Người bán";
+    List<SanPham> list = ViewData["ViewTK"] as List<SanPham>;
+    string tentk = ViewBag.tenTKShop;
+    TaiKhoanTV t = Session["DangNhap"] as TaiKhoanTV;
+}
+<style>
+    .Dd{max-width:60%; margin-left:20%;}
+
+</style>
+<link href="~/Content/giamgia.css" rel="stylesheet" />
+<div class="container-fluid pt-5 pb-3">
+    <div class="row Dd">
+        @{int x = 0;
+            foreach (SanPham j in list)
+            {
+                TaiKhoanTV b = new EcommerceEntities().TaiKhoanTVs.Find(j.taiKhoan);
+                <div class="col-md-4">
+                    <img style="width: 100px; height: 100px; border-radius: 50%;" src="@b.hinhDD" />
+
+                    @*<p>@j.taiKhoan</p>*@
+                </div>
+                <div class="col-md-4">
+                    <h4>Thông tin shop <b style="color: red;">@j.taiKhoan</b></h4>
+                    <p><b>Tên chủ Shop:</b> @b.tenTV</p>
+                    <p><b>Email:</b> @b.email</p>                  
+                </div>
+                <div class="col-md-4">
+                    <p style="margin-top: 30%;"><b>Trạng thái:</b> Hoạt động</p>
+                    <p><b>Số điện thoại:</b> @b.soDT</p>
+                </div>
+                if (x >= 0)
+                {
+                    break;
+                }
+            }
+        }
+    @*<div class="nav nav-tabs mb-4">
+        @{ int q = 0; int z = 0;
+                foreach (var i in (new EcommerceEntities().LoaiSPs.ToList()))
+                {
+                        <a class="nav-item nav-link text-dark  @(z++ == 0 ? "active": "")" data-toggle="tab" href="@Url.Action("ShopTK","Shop", new {maloaiSP = i.maLoai})" )">@i.tenLoai</a>
+                        if (q++ >= 7)
+                        {
+                            break;
+                        }
+            }
+        }
+
+
+    </div>*@
+    </div>
+    <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4"><span class="bg-secondary pr-3">Sản Phẩm Đang Kinh Doanh</span></h2>
+    @{
+        foreach (var i in (new EcommerceEntities().LoaiSPs.ToList()))
+        {
+            if ((new EcommerceEntities().SanPhams.Where(m => m.maLoai == i.maLoai && m.taiKhoan == tentk).Count()) > 0)
+            {
+                <h3 class="section-title position-relative text-uppercase mx-xl-5 mb-4"><span class="bg-secondary pr-3">@i.tenLoai</span></h3>
+                <div class="row px-xl-5">
+                    @foreach (SanPham l in DataIn.GetSPTheoLoai(i.maLoai).Where(m => m.taiKhoan == tentk))
+                    {
+
+                        <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
+                            <div class="product-item bg-light mb-4">
+                                <div class="product-img position-relative overflow-hidden">
+                                    <img class="img-fluid w-100" src="@l.hinhDD" alt="">
+                                    @{
+                                        if (l.giamGia != 0)
+                                        { <div class="igiamgia">@l.giamGia%<P>GIẢM</P></div>
+                                    }
+                                    }
+                                    <div class="product-action">
+                                        @if (t.TKTV != l.taiKhoan)
+                                        {
+                                            using (Html.BeginForm("AddToCart", "GioHang", FormMethod.Post))
+                                            {
+                                                <input type="hidden" name="maSP" value="@l.maSP" />
+                                                <button class="btn btn-outline-dark btn-square" onclick="thongbao()"><i class="fa fa-shopping-cart"></i></button>
+                                            }
+                                        }
+                                    </div>
+                                </div>
+                                <div class="text-center py-4">
+                                    <ul class="list" style="list-style: none; padding: 0;">
+                                        <a class="h6 text-decoration-none text-truncate" href="@Url.Action("ShopDetail", "Shop", new {maSanPham = l.maSP})">
+                                        <li class="setweight">@l.tenSP</li></a>
+                                    </ul>
+                                    <div class="d-flex align-items-center justify-content-center mt-2">
+                                        <h5>@string.Format("{0:#,##0 VNĐ}", l.giaBan - (l.giaBan * l.giamGia / 100))</h5>
+                                        @{
+                                            if (l.giamGia != 0)
+                                            { <h6 class="text-muted ml-2"><del>@string.Format("{0:#,##0 VNĐ}", l.giaBan)</del></h6>}
+                                        }
+                                    </div>
+                                    <div class="d-flex align-items-center justify-content-center mb-1">
+                                        <small class="fa fa-star text-primary mr-1"></small>
+                                        <small class="fa fa-star text-primary mr-1"></small>
+                                        <small class="fa fa-star text-primary mr-1"></small>
+                                        <small class="fa fa-star text-primary mr-1"></small>
+                                        <small class="fa fa-star text-primary mr-1"></small>
+                                        <a style="color:brown" href="@Url.Action("ShopTK", "Shop", new {tenTKShop = l.taiKhoan})">(@l.taiKhoan)</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                      }
+
+                </div>
+                }
+             }
+         }
+</div>
+
+
+ 
+

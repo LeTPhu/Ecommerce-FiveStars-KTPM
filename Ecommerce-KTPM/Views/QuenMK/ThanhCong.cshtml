@@ -1,0 +1,18 @@
+﻿
+@{
+    ViewBag.Title = "Thành công";
+}
+<style>
+    .btn-danger {
+        text-align: center;
+        border-radius: 2px;
+        margin: 1% 0% 0% 46%;
+        font-weight:bold;
+    }
+    .text_1{
+        color:white;
+    }
+</style>
+<h2 style="text-align: center; color: red;">Mật khẩu đã được reset và gửi vào Email của bạn !</h2>
+<button class="btn btn-danger ">@Html.ActionLink("Đăng nhập", "Login", "SignIn", null, new { @class = "edit-form-singinup text_1", Area = "" })</button>
+

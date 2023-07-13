@@ -1,0 +1,28 @@
+.container {
+    position: relative;
+}
+
+#menu_list {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 270%;
+    max-height: 300px;
+    overflow-y: auto;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-top: none;
+    z-index: 1;
+}
+#menu_list li {
+    padding: 10px;
+    cursor: pointer;
+}
+
+#menu_list li:hover {
+    background-color: #f5f5f5;
+}
+
+ul li {
+    list-style: none;
+}

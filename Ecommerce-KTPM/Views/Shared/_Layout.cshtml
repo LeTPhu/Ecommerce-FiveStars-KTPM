@@ -1,0 +1,448 @@
+﻿@using Ecommerce_KTPM.Models
+@{ 
+    TaiKhoanTV t = Session["DangNhap"] as TaiKhoanTV;
+    Shopcart shop = Session["GioHang"] as Shopcart;
+
+    int a;
+    if (t.TKTV == "admin")
+    {
+        a = 0;
+    }
+    else { a = new EcommerceEntities().ThongBaos.Where(m => m.TKTV == t.TKTV && (m.trangThai != null && m.trangThai != "DDc")).Count(); }
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>FiveStars - @ViewBag.Title </title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="Free HTML Templates" name="keywords">
+    <meta content="Free HTML Templates" name="description">
+
+    <!-- Favicon -->
+    <link href="~/Assets/~/Assets/~/Assets/~/Assets/~/Assets/img/favicon.ico" rel="icon">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+
+    <!-- Libraries Stylesheet -->
+    <link href="~/Content/animate.min.css" rel="stylesheet">
+    <link href="~/Content/owl.carousel.min.css" rel="stylesheet">
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="~/Content/style.css" rel="stylesheet">
+    <link href="~/Assets/css/main.css" rel="stylesheet">
+    <link href="~/Assets/css/chatbot.css" rel="stylesheet">
+    <link href="~/Content/searchsp.css" rel="stylesheet" />
+    <link href="~/Assets/css/sendmail.css" rel="stylesheet" />
+
+    <!-- sweetalert-->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+    <div class="loader">
+        <span class="loader"></span>
+    </div>
+    <div id="set-followflex">
+        <!-- Topbar Start -->
+        <div class="container-fluid">
+            <div class="row bg-secondary py-1 px-xl-5">
+                <div class="col-lg-6 d-none d-lg-block">
+                    <div class="d-inline-flex align-items-center h-100">
+                        <a class="text-body mr-3" href="#">About</a>
+                        <a class="text-body mr-3" href="@Url.Action("Contact", "Home", new { Area = "" })"></a>
+                        <a class="text-body mr-3" href="#">Help</a>
+                        <a class="text-body mr-3" href="#">FAQs</a>
+                    </div>
+                </div>
+                @{ if (t.tenTV != null)
+                    {
+
+
+                        <div class="col-lg-6 text-center text-lg-right">
+                            <div class="d-inline-flex align-items-center">
+                                <div class="nav-item dropdown">
+                                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                                        <i class="fa fa-bell me-lg-2"></i>
+                                        @{
+                                            if (a != 0)
+                                            {<span class="d-none d-lg-inline-flex" onclick="openModal()"> Thông báo(@a)</span>}
+
+                                        }
+                                    </a>
+                                    <div id="myModal" class="modal">
+                                        <div class="" style=" top: 30%; position: relative; text-align: center; display: flex; flex-direction: column; width: 50%; pointer-events: auto; background-color: #fff; background-clip: padding-box; border: 1px solid black; outline: 0; left: 29%;">
+                                            @foreach (ThongBao i in (new EcommerceEntities().ThongBaos.Where(m => m.TKTV == t.TKTV && (m.trangThai != null && m.trangThai != "DDc")).ToList()))
+                                            {
+                                                <h3 style="color: red; margin-top: 15px;">@i.chuDe</h3>
+                                                <p>@Html.Raw(i.noiDung)</p>
+                                                <p>@string.Format("{0:dd/MM/yy}", i.ngayTB)</p>
+                                                <a class="btn btn-outline-primary" style="margin: 0 0 1% 43%; width: 15%;" href="@Url.Action("DaDoc","YeuCau",new {soTB=i.soTB ,url="Home", area="PrivateShop"})">Đã đọc</a>
+                                            }
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                                <div class="btn-group">
+                                    <img src="@t.hinhDD" style="height: 25px; width:25px; border-radius: 50%; margin: 5px;" />
+                                    <button type="button" class="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown">@t.tenTV</button>
+                                    <div class="dropdown-menu dropdown-menu-right">
+                                        @{
+                                            if (t.TKTV == "admin")
+                                            {
+                                                <button class="dropdown-item" type="button"><a class="edit-form-singinup" href="@Url.Action("DSTK","QTV", new {area="PrivateShop"})">Trang quản trị</a></button>
+                                                <button class="dropdown-item" type="button"><a class="edit-form-singinup" href="@Url.Action("Logout","SignIn", new {area=""})">Đăng xuất</a></button>
+
+                                            }
+                                            else
+                                            {
+                                                <button class="dropdown-item" type="button"><a class="edit-form-singinup" href="@Url.Action("TrangThai","TrangThai", new {area="PrivateShop"})">Trang cá nhân</a></button>
+                                                <button class="dropdown-item" type="button"><a class="edit-form-singinup" href="@Url.Action("DSDonHang","DonHangMua", new {area="PrivateShop"})">Danh sách đơn hàng</a></button>
+                                                <button class="dropdown-item" type="button"><a class="edit-form-singinup" href="@Url.Action("Dashboard","Dashboard", new {area="PrivateShop"})">Trang bán hàng</a></button>
+                                                <button class="dropdown-item" type="button"><a class="edit-form-singinup" href="@Url.Action("Logout","SignIn", new {area=""})">Đăng xuất</a></button>
+                                            }
+                                        }
+
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="d-inline-flex align-items-center d-block d-lg-none">
+                                @*<a href="" class="btn px-0 ml-2">
+                                    <i class="fas fa-heart text-dark"></i>
+                                    <span class="badge text-dark border border-dark rounded-circle" style="padding-bottom: 2px;">0</span>
+                                </a>*@
+                                <a href="@Url.Action("Cart", "GioHang",new {Area=""})" class="btn px-0 ml-2">
+                                    <i class="fas fa-shopping-cart text-dark"></i>
+                                    <span class="badge text-dark border border-dark rounded-circle" style="padding-bottom: 2px;">@shop.tongSP()</span>
+                                </a>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="col-lg-6 text-center text-lg-right">
+                            <div class="d-inline-flex align-items-center">
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown">My Account</button>
+                                    <div class="dropdown-menu dropdown-menu-right">
+                                        <button class="dropdown-item" type="button">@Html.ActionLink("Đăng nhập", "Login", "SignIn", null, new { @class = "edit-form-singinup", Area = "" })</button>
+                                        <button class="dropdown-item" type="button">@Html.ActionLink("Đăng ký", "SignUp", "SignIn", null, new { @class = "edit-form-singinup", Area = "" })</button>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="d-inline-flex align-items-center d-block d-lg-none">
+                                @*<a href="" class="btn px-0 ml-2">
+                                    <i class="fas fa-heart text-dark"></i>
+                                    <span class="badge text-dark border border-dark rounded-circle" style="padding-bottom: 2px;">0</span>
+                                </a>*@
+                                <a href="@Url.Action("Cart", "GioHang", new { Area = "" })" class="btn px-0 ml-2">
+                                    <i class="fas fa-shopping-cart text-dark"></i>
+                                    <span class="badge text-dark border border-dark rounded-circle" style="padding-bottom: 2px;">@shop.tongSP()</span>
+                                </a>
+                            </div>
+                        </div>
+
+                    } }
+            </div>
+            <div class="row align-items-center bg-light py-3 px-xl-5 d-none d-lg-flex">
+                <div class="col-lg-4">
+                    <a href="@Url.Action("Home","Home",new {Area=""})" class="text-decoration-none">
+                        <span style="color: #ff7f39;" class="h1 text-uppercase">Five</span><i style="font-size:35px;" class="fas fa-star-half-alt"></i>
+                        <span style="color: #63b1ee;" class="h1 text-uppercase ml-n1">Stars</span>
+                    </a>
+                </div>
+                <div class="col-lg-4 col-6 text-left">
+                    @using (Html.BeginForm("SearchSP", "Search", FormMethod.Post))
+                    {
+                        <div class="input-group">
+                            <input type="text" class="form-control dropdown-toggle dropright" data-toggle="dropdown" id="menu_search" placeholder="Tìm kiếm sản phẩm" name="search" onkeyup="searchfunc()">
+                            <div class="dropdown-menu">
+                                <ul class="list" style="list-style: none; padding: 0; overflow-y: clip; max-height:310px; width:270%;" id="menu_list">
+                                    @{
+                                        foreach (SanPham l in DataIn.GetSanPhams())
+                                        {
+                                            <li class="menu_item setweight" href="@Url.Action("ShopDetail", "Shop", new {maSanPham = l.maSP})">
+                                                <img style="max-width:20%;" src="@l.hinhDD" />
+
+                                                <a class="h6 text-decoration-none text-truncate" href="@Url.Action("ShopDetail", "Shop", new {maSanPham = l.maSP})">@l.tenSP.ToLower()</a>
+
+                                            </li>
+                                        }
+                                    }
+                                </ul>
+                            </div>
+                            <div class="input-group-append">
+                                <button class="input-group-text bg-transparent text-primary" type="submit"><i class="fa fa-search"></i></button>
+                            </div>
+                        </div>
+                    }
+                </div>
+
+                @*<p style="text-align:center"><input style="padding:0.2% 4%; text-align:center;" type="text" id="brandFilter" placeholder="Tìm theo thương hiệu"></p>*@
+
+                <div class="col-lg-4 col-6 text-right">
+                    <p class="m-0">Liên hệ hỗ trợ</p>
+                    <h5 class="m-0">1900 2039</h5>
+                </div>
+            </div>
+        </div>
+
+        <!-- Topbar End -->
+        <!-- Navbar Start -->
+        <div class="container-fluid bg-dark mb-30">
+            <div class="row px-xl-5">
+                <div class="col-lg-3 d-none d-lg-block">
+                    <a class="btn d-flex align-items-center justify-content-between bg-primary w-100" data-toggle="collapse" href="#navbar-vertical" style="height: 65px; padding: 0 30px;">
+                        <h6 class="text-dark m-0"><i class="fa fa-bars mr-2"></i>Danh mục sản phẩm</h6>
+                        <i class="fa fa-angle-down text-dark"></i>
+                    </a>
+                    <nav class="collapse position-absolute navbar navbar-vertical navbar-light align-items-start p-0 bg-light" id="navbar-vertical" style="width: calc(100% - 30px); z-index: 999;">
+                        @{
+                            foreach (NganhHang i in DataIn.GetNganhHangs())
+                            {
+                                <div class="navbar-nav w-100 hoverItem" style="padding: 10px;">
+                                    <div class="nav-item dropdown dropright">
+                                        <a href="#" class="na
+                                           v-link dropdown-toggle" data-toggle="dropdown" style="color: black;">@i.tenNganh <i class="fa fa-angle-right float-right mt-1"></i></a>
+                                        <div class="dropdown-menu position-absolute rounded-0 border-0 m-0">
+                                            <ul class="nav">
+                                                @{int d = 0;
+                                                    foreach (LoaiSP l in DataIn.GetLSPTheoNganh(i.maNganh))
+                                                    {
+                                                        <li><a href="@Url.Action("ShopSP", "Shop", new {maLoaiSP = l.maLoai})" class="nav-link dropdown-item @(d++ == 0 ? "active": "")">@l.tenLoai</a></li>
+                                                    }
+                                                }
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        }
+
+                    </nav>
+                </div>
+                <div class="col-lg-9">
+                    <nav class="navbar navbar-expand-lg bg-dark navbar-dark py-3 py-lg-0 px-0">
+                        <a href="@Url.Action("Home","Home",new {Area=""})" class="text-decoration-none d-block d-lg-none">
+                            <span style="color: #ff7f39;" class="h1 text-uppercase">Five</span><i style="font-size:35px;" class="fas fa-star-half-alt"></i>
+                            <span style="color: #63b1ee;" class="h1 text-uppercase ml-n1">Stars</span>
+                        </a>
+                        <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
+                            <div class="navbar-nav mr-auto py-0">
+                                <a class="nav-item nav-link act" href="@Url.Action( "Home", "Home",new {Area=""})">Trang chủ</a>
+                                <a class="nav-item nav-link act" href="@Url.Action("Contact", "Home",new {Area=""})">Liên hệ</a>
+                            </div>
+                            <div class="navbar-nav ml-auto py-0 d-none d-lg-block">
+                                @*<a href="#" class="btn px-0">
+                                    <i class="fas fa-heart text-primary"></i>
+                                    <span class="badge text-secondary border border-secondary rounded-circle" style="padding-bottom: 2px;">0</span>
+                                </a>*@
+                                <a href="@Url.Action("Cart","GioHang",new {Area=""})" class="btn px-0 ml-3">
+                                    <i class="fas fa-shopping-cart text-primary"></i>
+                                    <span class="badge text-secondary border border-secondary rounded-circle" style="padding-bottom: 2px;">@shop.tongSP() </span>
+                                </a>
+
+                            </div>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+        </div>
+        <!-- Navbar End -->
+    </div>
+    <!-- Search Mobile -->
+    <div class="thanhsearch">
+        <div class="col-lg-4 col-6 text-left">
+            @using (Html.BeginForm("SearchSP", "Search", FormMethod.Post))
+            {
+                <div class="input-group">
+                    <input type="text" class="form-control dropdown-toggle dropright" data-toggle="dropdown" id="menu_search_1" placeholder="Tìm kiếm sản phẩm" name="search" onkeyup="searchfunc_1()">
+                    <div class="dropdown-menu">
+                        <ul class="list" style="list-style: none; padding: 0;  overflow-y: clip;" id="menu_list">
+                            @{
+                                foreach (SanPham l in DataIn.GetSanPhams())
+                                {
+                                    <li class="menu_item_1 setweight" href="@Url.Action("ShopDetail", "Shop", new {maSanPham = l.maSP})">
+                                        <img style="max-width:20%;" src="@l.hinhDD" />
+
+                                        <a class="h6 text-decoration-none text-truncate" href="@Url.Action("ShopDetail", "Shop", new {maSanPham = l.maSP})">@l.tenSP.ToLower()</a>
+
+                                    </li>
+                                }
+                            }
+                        </ul>
+                    </div>
+                    <div class="input-group-append">
+                        <button class="input-group-text bg-transparent text-primary" type="submit"><i class="fa fa-search"></i></button>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+
+
+    @* form chatbot *@
+    <div id="contact">
+        <div id="chat-icon" style="background-color: #ffd333;">
+            <i class="fas fa-phone-alt"></i>
+        </div>
+        <div id="chat-box">
+            <div class="chatbot-container">
+                <div class="chatbot-header" style="background-color: #ffd333;">
+                    <a href="@Url.Action("Home","Home",new {Area=""})" class="text-decoration-none">
+                        <span class="h6 text-uppercase text-primary bg-dark px-6">Five</span>
+                        <span class="h6 text-uppercase text-dark bg-primary px-6 ml-n1">Stars</span>
+                    </a>
+                    <h8 style="color:black; font-weight:bold;">Hỗ Trợ Khách Hàng</h8>
+                    <button class="chatbot-close">&times;</button>
+                </div>
+                <div class="chatbot-messages">
+                    <div class="chatbot-message" style="background: #3d464d; color:white;">Chào mừng đến với trang chủ của chúng tôi, nơi cung cấp cho bạn những sản phẩm và dịch vụ tốt nhất để mua sắm trực tuyến. Chúng tôi tự hào là địa điểm mua sắm trực tuyến đáng tin cậy của bạn, với hàng ngàn sản phẩm đa dạng và chất lượng cao được cập nhật thường xuyên. Cho dù bạn đang tìm kiếm quần áo, giày dép, đồ gia dụng, thiết bị điện tử hay bất kỳ sản phẩm nào khác, chúng tôi cam kết cung cấp cho bạn những sản phẩm tốt nhất và giá cả hợp lý. Với một trải nghiệm mua sắm trực tuyến tuyệt vời, hãy ghé thăm trang chủ của chúng tôi và khám phá những sản phẩm tuyệt vời mà chúng tôi có thể cung cấp cho bạn!</div>
+                </div>
+                <div class="chatbot-input">
+                    <input type="text" placeholder="Nhập tin nhắn của bạn..." style="border-radius: 0;">
+                    <button style="background-color: #ffd333; color:black;" class="send-btn">Gửi</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    @RenderBody()
+
+    <!-- Footer Start -->
+    <div class="container-fluid bg-dark text-secondary mt-5 pt-5">
+        <div class="row px-xl-5 pt-5">
+            <div class="col-lg-4 col-md-12 mb-5 pr-3 pr-xl-5">
+                <h5 class="text-secondary text-uppercase mb-4">Về chúng tôi</h5>
+                <p class="mb-4">Đây là dự án website thương mại điện tử được phát triển bởi: Bạch Sỹ Khang, Lê Tấn Phú, Nguyễn Phước Hải, Nguyễn Xuân Hiếu</p>
+                <p class="mb-2"><i class="fa fa-map-marker-alt text-primary mr-3"></i>Quận 12, Thành Phố Hồ Chí Minh</p>
+            </div>
+            <div class="col-lg-8 col-md-12">
+                <div class="row" style="justify-content: space-around;">
+                    <div class="col-md-4 mb-5" s>
+                        <h5 class="text-secondary text-uppercase mb-4">Đội ngũ Lập trình viên</h5>
+                        <div class="d-flex flex-column justify-content-start">
+                            <p class="mb-2"><i class="fa fa-envelope text-primary mr-3"></i>haikoi150423@gmail.com</p>
+                            <p class="mb-0"><i class="fa fa-phone-alt text-primary mr-3"></i>037.7920.917</p>
+                            <p class="mb-2"><i class="fa fa-envelope text-primary mr-3"></i>Bachsykhang.it@gmail.com</p>
+                            <p class="mb-0"><i class="fa fa-phone-alt text-primary mr-3"></i>037.559.5019</p>
+                            <p class="mb-2"><i class="fa fa-envelope text-primary mr-3"></i>letanphu2906@gmail.com</p>
+                            <p class="mb-0"><i class="fa fa-phone-alt text-primary mr-3"></i>0974.613.051</p>
+                            <p class="mb-2"><i class="fa fa-envelope text-primary mr-3"></i>Sara.No.Sand@gmail.com</p>
+                            <p class="mb-0"><i class="fa fa-phone-alt text-primary mr-3"></i>0346.456.730</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-5">
+                        <h5 class="text-secondary text-uppercase mb-4">Bản tin</h5>
+                        <p>Đăng ký và kết nối với chúng tôi để biết các tin tức mới nhất về các sản phẩm online</p>
+                        <form action="">
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="Your Email Address">
+                                <div class="input-group-append">
+                                    <a href="@Url.Action("SignIn","SignUp")">
+                                        <button class="btn btn-primary">Đăng ký</button>
+                                    </a>
+                                </div>
+                            </div>
+                        </form>
+                        <h6 class="text-secondary text-uppercase mt-4 mb-3">Theo dõi chúng tôi</h6>
+                        <div class="d-flex">
+                            <a class="btn btn-primary btn-square mr-2" href="#"><i class="fab fa-twitter"></i></a>
+                            <a class="btn btn-primary btn-square mr-2" href="#"><i class="fab fa-facebook-f"></i></a>
+                            <a class="btn btn-primary btn-square mr-2" href="#"><i class="fab fa-linkedin-in"></i></a>
+                            <a class="btn btn-primary btn-square" href="#"><i class="fab fa-instagram"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row border-top mx-xl-5 py-4" style="border-color: rgba(256, 256, 256, .1) !important;">
+            <div class="col-md-6 px-xl-0">
+                <p class="mb-md-0 text-center text-md-left text-secondary">
+                    &copy; <a class="text-primary" href="#">Domain</a>. All Rights Reserved. Designed
+                    by
+                    <a class="text-primary" href="https://htmlcodex.com">HTML Codex</a>
+                </p>
+            </div>
+            <div class="col-md-6 px-xl-0 text-center text-md-right">
+                <img class="img-fluid" src="~/Assets/~/Assets/~/Assets/~/Assets/~/Assets/img/payments.png" alt="">
+            </div>
+        </div>
+    </div>
+    <!-- Footer End -->
+    <!-- Back to Top -->
+    <a href="#" class="btn btn-primary back-to-top"><i class="fa fa-angle-double-up"></i></a>
+
+    <!-- JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+    <script src="~/Scripts/easing.min.js"></script>
+    <script src="~/Scripts/owl.carousel.min.js"></script>
+
+    <!-- Contact Javascript File -->
+    <script src="~/Scripts/jqBootstrapValidation.min.js"></script>
+    <script src="~/Scripts/contact.js"></script>
+
+    <!-- Template Javascript -->
+    <script src="~/Scripts/main.js"></script>
+    <script src="~/Assets/js/chatbot.js"></script>
+    <script src="~/Assets/js/searchsp.js"></script>
+    <script src="~/Assets/js/active.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script>
+        function thongbao() {
+            swal("Thành công !", "Đã thêm sản phẩm vào giỏ hàng!", "success");
+        }
+    </script>
+    <script src="~/Assets/js/main.js"></script>
+    <script src="~/Scripts/nutsp.js"></script>
+    <script src="~/Scripts/searchsp.js"></script>
+    <script src="~/Content/locspmb.js"></script>
+    <script>
+        // loader
+        window.onload = function () {
+            document.getElementById("load").style.display = "none";
+        }
+    </script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function () {
+
+        // Lấy khung hiển thị và nút đóng khung hiển thị
+        var modal = document.getElementById("myModal");
+        var closeButton = document.getElementsByClassName("close")[0];
+
+        // Hàm mở khung hiển thị
+        function openModal() {
+            modal.style.display = "block";
+        }
+
+        // Hàm đóng khung hiển thị
+        function closeModal() {
+            modal.style.display = "none";
+        }
+
+        // Đóng khung hiển thị khi nhấn vào nút đóng khung hoặc click bên ngoài khung
+        window.onclick = function (event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    });
+    </script>
+</body>
+</html>
+

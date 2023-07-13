@@ -1,0 +1,16 @@
+﻿.product-vote {
+    width: 400px;
+    margin: 20px auto;
+    text-align: center;
+}
+
+.stars {
+    font-size: 30px;
+    color: #ccc;
+    margin-bottom: 20px;
+}
+
+.star:hover,
+.star.active {
+    color: yellow;
+}

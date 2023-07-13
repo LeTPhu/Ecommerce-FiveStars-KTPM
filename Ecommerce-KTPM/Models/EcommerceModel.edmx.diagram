@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="574f672668da4552be78a8fbe899f754" Name="Diagram1" ZoomLevel="67">
+        <EntityTypeShape EntityType="EcommerceModel.CtDonHang" Width="1.5" PointX="8.375" PointY="1.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="EcommerceModel.DonHang" Width="1.5" PointX="11.75" PointY="4.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="EcommerceModel.LoaiSP" Width="1.5" PointX="0.5" PointY="8.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="EcommerceModel.NganhHang" Width="1.5" PointX="6.5" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="EcommerceModel.SanPham" Width="1.5" PointX="4" PointY="5.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="EcommerceModel.sysdiagram" Width="1.5" PointX="0.75" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="EcommerceModel.TaiKhoanTV" Width="1.5" PointX="0.625" PointY="3.5" IsExpanded="true" />
+        <AssociationConnector Association="EcommerceModel.FK__CtDonHang__maSP__31EC6D26" ManuallyRouted="false" />
+        <AssociationConnector Association="EcommerceModel.FK__CtDonHang__soDH__30F848ED" ManuallyRouted="false" />
+        <AssociationConnector Association="EcommerceModel.FK__DonHang__tktv1__2C3393D0" ManuallyRouted="false" />
+        <AssociationConnector Association="EcommerceModel.FK__DonHang__tktv2__2D27B809" ManuallyRouted="false" />
+        <AssociationConnector Association="EcommerceModel.FK__LoaiSP__maNganh__1BFD2C07" ManuallyRouted="false" />
+        <AssociationConnector Association="EcommerceModel.FK__SanPham__maLoai__21B6055D" ManuallyRouted="false" />
+        <AssociationConnector Association="EcommerceModel.FK__SanPham__taiKhoa__239E4DCF" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="EcommerceModel.GiaoHang" Width="1.5" PointX="3.125" PointY="10.125" />
+        <AssociationConnector Association="EcommerceModel.FK__GiaoHang__maKH__5EBF139D" />
+        <EntityTypeShape EntityType="EcommerceModel.ThongBao" Width="1.5" PointX="2.875" PointY="14.25" />
+        <AssociationConnector Association="EcommerceModel.FK__ThongBao__TKQT__6A30C649" />
+        <AssociationConnector Association="EcommerceModel.FK__ThongBao__TKTV__6B24EA82" />
+        <EntityTypeShape EntityType="EcommerceModel.OTP" Width="1.5" PointX="2.875" PointY="17.875" />
+        <AssociationConnector Association="EcommerceModel.FK__OTP__TKTV__756D6ECB" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
